@@ -15,7 +15,7 @@ function Employees() {
   const fetchEmployees = async () => {
 
     const res = await axios.get(
-      "http://localhost:5000/api/employees/search"
+      "https://ai-employee-analytics-system.onrender.com/api/employees"
     );
 
     setEmployees(res.data);
@@ -25,7 +25,7 @@ function Employees() {
   const searchEmployee = async () => {
 
     const res = await axios.get(
-      `https://ai-employee-analytics-system.onrender.com//employees/search?department=${department}`
+      `https://ai-employee-analytics-system.onrender.com/api/employees/search?department=${department}`
     );
 
     setEmployees(res.data);
@@ -33,36 +33,41 @@ function Employees() {
 
   return (
 
-    <div>
+    <div className="container">
 
-      <h1>Employees</h1>
+      <div className="card">
 
-      <input
-        type="text"
-        placeholder="Search Department"
-        onChange={(e) => setDepartment(e.target.value)}
-      />
+        <h1 className="title">
+          Employees
+        </h1>
 
-      <button onClick={searchEmployee}>
-        Search
-      </button>
+        <input
+          type="text"
+          placeholder="Search Department"
+          onChange={(e) => setDepartment(e.target.value)}
+        />
 
-      <br /><br />
+        <button onClick={searchEmployee}>
+          Search
+        </button>
+
+      </div>
 
       {
         employees.map((emp) => (
 
-          <div key={emp._id}>
+          <div
+            className="employee-card"
+            key={emp._id}
+          >
 
-            <h3>{emp.name}</h3>
+            <h3>👤 {emp.name}</h3>
 
-            <p>{emp.email}</p>
+            <p>📧 {emp.email}</p>
 
-            <p>{emp.department}</p>
+            <p>🏢 {emp.department}</p>
 
-            <p>{emp.performanceScore}</p>
-
-            <hr />
+            <p>⭐ {emp.performanceScore}</p>
 
           </div>
         ))

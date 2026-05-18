@@ -1,12 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function AIPage() {
 
+  const [employees, setEmployees] = useState([]);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const getRecommendation = async () => {
+  useEffect(() => {
+
+    fetchEmployees();
+
+  }, []);
+
+  const fetchEmployees = async () => {
+
+    const res = await axios.get(
+      "https://ai-employee-analytics-system.onrender.com/api/employees"
+    );
+
+    setEmployees(res.data);
+
+  };
+
+  const getRecommendation = async (employee) => {
 
     try {
 
@@ -15,16 +32,15 @@ function AIPage() {
       const res = await axios.post(
         "https://ai-employee-analytics-system.onrender.com/api/ai/recommend",
 
-        {
-          name: "Aman Verma",
-          skills: ["React", "Node.js"],
-          performanceScore: 85,
-          experience: 3,
-        }
+        employee
       );
 
       setResult(
-        res.data.choices[0].message.content
+        `
+Employee: ${employee.name}
+
+${res.data.choices[0].message.content}
+        `
       );
 
       setLoading(false);
@@ -49,31 +65,57 @@ function AIPage() {
         </h1>
 
         <p className="subtitle">
-          Generate AI-based employee insights and feedback
+          Generate AI insights for employees
         </p>
 
-        <button onClick={getRecommendation}>
-
-          {
-            loading
-              ? "Generating..."
-              : "Generate AI Feedback"
-          }
-
-        </button>
-
-        {
-          result && (
-
-            <div className="ai-box">
-
-              <p>{result}</p>
-
-            </div>
-          )
-        }
-
       </div>
+
+      {
+        employees.map((emp) => (
+
+          <div
+            className="employee-card"
+            key={emp._id}
+          >
+
+            <h3>👤 {emp.name}</h3>
+
+            <p>📧 {emp.email}</p>
+
+            <p>🏢 {emp.department}</p>
+
+            <p>⭐ {emp.performanceScore}</p>
+
+            <button
+              onClick={() =>
+                getRecommendation(emp)
+              }
+            >
+
+              {
+                loading
+                  ? "Generating..."
+                  : "Generate AI Feedback"
+              }
+
+            </button>
+
+          </div>
+        ))
+      }
+
+      {
+        result && (
+
+          <div className="ai-box">
+
+            <h2>AI Recommendation</h2>
+
+            <p>{result}</p>
+
+          </div>
+        )
+      }
 
     </div>
   );

@@ -13,7 +13,7 @@ function AIPage() {
       setLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/api/ai/recommend",
+        "https://ai-employee-analytics-system.onrender.com/api/ai/recommend",
 
         {
           name: "Aman Verma",

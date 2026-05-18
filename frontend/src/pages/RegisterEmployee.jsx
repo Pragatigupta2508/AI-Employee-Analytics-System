@@ -30,7 +30,7 @@ function RegisterEmployee() {
     try {
 
       await axios.post(
-        "http://localhost:5000/api/employees",
+        "https://ai-employee-analytics-system.onrender.com/api/employees",
 
         {
           ...formData,

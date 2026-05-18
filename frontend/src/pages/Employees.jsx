@@ -25,7 +25,7 @@ function Employees() {
   const searchEmployee = async () => {
 
     const res = await axios.get(
-      `http://localhost:5000/api/employees/search?department=${department}`
+      `https://ai-employee-analytics-system.onrender.com//employees/search?department=${department}`
     );
 
     setEmployees(res.data);

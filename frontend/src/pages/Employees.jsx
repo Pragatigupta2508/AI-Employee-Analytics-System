@@ -15,7 +15,7 @@ function Employees() {
   const fetchEmployees = async () => {
 
     const res = await axios.get(
-      "http://localhost:5000/api/employees"
+      "http://localhost:5000/api/employees/search"
     );
 
     setEmployees(res.data);
